@@ -32,10 +32,10 @@ class AppiumCurso(unittest.TestCase):
 
         wait = WebDriverWait(self.instance, 10)
         # wait.until(EC.presence_of_element_located((By., "Navigate up")))
-        hmbger = wait.until(EC.presence_of_element_located((By.XPATH, "//android.widget.ImageButton[@content-desc=\'Navigate up\']")))
+        hmbger = WebDriverWait(self.instance, 10).until(EC.presence_of_element_located((By.XPATH, "//android.widget.ImageButton[@content-desc=\'Navigate up\']")))
 
         hmbger.click()
-        setinha = wait.until(EC.presence_of_element_located((By.ID, "com.leavjenn.hews:id/iv_expander")))
+        setinha = WebDriverWait(self.instance, 10).until(EC.presence_of_element_located((By.ID, "com.leavjenn.hews:id/iv_expander")))
         # setinha = self.instance.find_element_by_id("com.leavjenn.hews:id/iv_expander")
         setinha.click()
 
