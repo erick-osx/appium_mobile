@@ -37,5 +37,5 @@ class HckrNews:
         self.msg_internet = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/tv_prompt")
         return self.msg_internet.text
 
-    def AirplaneMode(self, airplane):
-        self.instance.instance.set_network_connection(airplane)
+    def ConnectionType(self, nocnntion):
+        self.instance.instance.set_network_connection(nocnntion)
