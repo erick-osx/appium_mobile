@@ -89,13 +89,14 @@ class HackerNewsTest(unittest.TestCase):
         # PREENCHER O CAMPO PASSWORD
         hckr_news.Password("Senha123")
 
-        self.instance.instance.make_gsm_call('5551234567', "call")
+        # REALIZANDO CHAMADA, ACEITANDO, ESPERANDO E CANCELANDO
+        hckr_news.Chamadas('5551234567', "call")
         time.sleep(2)
-        self.instance.instance.make_gsm_call('5551234567', "accept")
+        hckr_news.Chamadas('5551234567', "accept")
         time.sleep(2)
-        self.instance.instance.make_gsm_call('5551234567', "hold")
+        hckr_news.Chamadas('5551234567', "hold")
         time.sleep(2)
-        self.instance.instance.make_gsm_call('5551234567', "cancel")
+        hckr_news.Chamadas('5551234567', "cancel")
         time.sleep(2)
 
         # VALIDAÇÃO DO NOME E SENHA

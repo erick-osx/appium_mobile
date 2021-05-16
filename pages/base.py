@@ -53,3 +53,6 @@ class HckrNews:
 
     def ConnectionType(self, nocnntion):
         self.instance.instance.set_network_connection(nocnntion)
+
+    def Chamadas(self, numero, tipoCall):
+        self.instance.instance.make_gsm_call(numero, tipoCall)
