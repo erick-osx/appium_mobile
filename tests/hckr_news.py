@@ -8,103 +8,86 @@ class HackerNewsTest(unittest.TestCase):
         self.instance = Instance()
         self.instance.instance.set_network_connection(6)
 
-
     def tearDown(self):
         self.instance.instance.quit()
-
-
 
     def test_01_validacaoUsernameVazio(self):
         hckr_news = HckrNews(self.instance)
         hckr_news.OpenMenu()
         hckr_news.CollapseLogin()
         hckr_news.ClickLogin()
-        time.sleep(2)
+
         # PREENCHER O CAMPO USERNAME COM VAZIO
-        inputUsername = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_user_name")
-        inputUsername.clear()
-        inputUsername.send_keys("")
-        time.sleep(2)
+        hckr_news.UserName("")
 
         # PREENCHER O CAMPO PASSWORD
-        inputPassword = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_password")
-        inputPassword.clear()
-        inputPassword.send_keys("123456")
-        time.sleep(2)
+        hckr_news.Password("123456")
 
         # CLICAR NO BOTÃO LOGIN
-        btnLogin = self.instance.instance.find_element_by_id("android:id/button1")
-        btnLogin.click()
-        time.sleep(2)
+        BtnLogin = hckr_news.BtnSignIn()
+        BtnLogin.click()
+
         # VERIFICAR VALIDAÇÃO USERNAME
-        msgValidacaoUsername = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/tv_prompt")
-        assert msgValidacaoUsername.text == "Catch you, anonymous!"
-        print("test_01_validacaoUsernameVazio")
+        msgValidacaoUsername = hckr_news.GetMsgNotInternt()
+        assert msgValidacaoUsername == "Catch you, anonymous!"
 
     def test_02_validacaoPasswordVazio(self):
         hckr_news = HckrNews(self.instance)
+
+        # ACESSA FORM LOGIN
         hckr_news.OpenMenu()
         hckr_news.CollapseLogin()
         hckr_news.ClickLogin()
-        time.sleep(2)
+
         # PREENCHER O CAMPO USERNAME
-        inputUsername = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_user_name")
-        inputUsername.clear()
-        inputUsername.send_keys("test@test.com")
+        hckr_news.UserName("test@test.com")
 
         # PREENCHER O CAMPO PASSWORD COM VAZIO
-        inputPassword = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_password")
-        inputPassword.clear()
-        inputPassword.send_keys("")
+        hckr_news.Password("")
 
         # CLICAR NO BOTÃO LOGIN
-        btnLogin = self.instance.instance.find_element_by_id("android:id/button1")
-        btnLogin.click()
+        BtnLogin = hckr_news.BtnSignIn()
+        BtnLogin.click()
 
         # VERIFICAR VALIDAÇÃO PASSWORD
-        msgValidacaoPassword = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/tv_prompt")
-        assert msgValidacaoPassword.text == "You got a short…password"
-        print("test_02_validacaoPasswordVazio")
+        msgValidacaoUsernameEPassword = hckr_news.GetMsgNotInternt()
+        assert msgValidacaoUsernameEPassword == "You got a short…password"
 
     def test_03_validacaoUsernameEPasswordVazio(self):
         hckr_news = HckrNews(self.instance)
+
+        # ACESSA FORM LOGIN
         hckr_news.OpenMenu()
         hckr_news.CollapseLogin()
         hckr_news.ClickLogin()
-        time.sleep(2)
+
         # PREENCHER O CAMPO USERNAME COM VAZIO
-        inputUsername = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_user_name")
-        inputUsername.clear()
-        inputUsername.send_keys("")
+        hckr_news.UserName("")
 
         # PREENCHER O CAMPO PASSWORD COM VAZIO
-        inputPassword = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_password")
-        inputPassword.clear()
-        inputPassword.send_keys("")
+        hckr_news.Password("")
 
         # CLICAR NO BOTÃO LOGIN
-        btnLogin = self.instance.instance.find_element_by_id("android:id/button1")
-        btnLogin.click()
+        BtnLogin = hckr_news.BtnSignIn()
+        BtnLogin.click()
 
         # VERIFICAR VALIDAÇÃO PASSWORD
-        msgValidacaoUsernameEPassword = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/tv_prompt")
-        assert msgValidacaoUsernameEPassword.text == "Catch you, anonymous!"
-        print("test_03_validacaoUsernameEPasswordVazio")
+        msgValidacaoUsernameEPassword = hckr_news.GetMsgNotInternt()
+        assert msgValidacaoUsernameEPassword == "Catch you, anonymous!"
 
     def test_04_validacaoDadosAposChamada(self):
         hckr_news = HckrNews(self.instance)
+
+        # ACESSA FORM LOGIN
         hckr_news.OpenMenu()
         hckr_news.CollapseLogin()
         hckr_news.ClickLogin()
-        time.sleep(2)
 
-        username = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_user_name")
-        username.clear()
-        username.send_keys("Nome Usuario")
+        # PREENCHER O CAMPO USERNAME
+        hckr_news.UserName("Nome Usuario")
 
-        password = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_password")
-        password.clear()
-        password.send_keys("Senha123")
+        # PREENCHER O CAMPO PASSWORD
+        hckr_news.Password("Senha123")
 
         self.instance.instance.make_gsm_call('5551234567', "call")
         time.sleep(2)
@@ -115,46 +98,56 @@ class HackerNewsTest(unittest.TestCase):
         self.instance.instance.make_gsm_call('5551234567', "cancel")
         time.sleep(2)
 
-        # username_text = self.instance.instance.find_element_by_id("com.leavjenn.hews:id/et_user_name")
-        assert username.text == "Nome Usuario"
-        assert password.text != None
+        # VALIDAÇÃO DO NOME E SENHA
+        assert hckr_news.user_name.text == "Nome Usuario"
+        assert hckr_news.password.text != None
 
-    def test_05_validar_botao_cancel_e_voltar_tela_inicial(self):
+    def test_05_ValidarBotaoCancelVoltarTelaInicial(self):
         hckr_news = HckrNews(self.instance)
+
+        # ACESSA FORM LOGIN
         hckr_news.OpenMenu()
         hckr_news.CollapseLogin()
         hckr_news.ClickLogin()
-        time.sleep(2)
-        # Validando algumas informações do modal de login
-        login_title = self.instance.instance.find_element_by_id("android:id/alertTitle").text
-        assert login_title == "Login", "Título login é diferente"
-        # print(login_title)
-        login_btn = self.instance.instance.find_element_by_id("android:id/button1").text
-        assert login_btn == "LOGIN", "Nome do botão login é diferente"
-        cancel_btn = self.instance.instance.find_element_by_id("android:id/button2").text
-        assert cancel_btn == "CANCEL", "Nome do botão cancelar é diferente"
 
-        # Clicando no botão Cancel
-        cancel = self.instance.instance.find_element_by_id("android:id/button2")
-        cancel.click()
-        time.sleep(2)
-        # Validando o título da página inicial
-        hews_home_title = self.instance.instance.find_element_by_class_name("android.widget.TextView").text
-        assert hews_home_title == "Hews", "O título da página home está errado"
+        hckr_news.BtnSignIn()
+        hckr_news.BtnCancel()
 
-    def test_06_login_without_connection(self):
+        # VALIDANDO ALGUMAS INFORMAÇÕES DO MODAL DE LOGIN
+        assert hckr_news.LogginTitle() == "Login", "Título login é diferente"
+        assert hckr_news.loggar.text == "LOGIN", "Nome do botão login é diferente"
+        assert hckr_news.btn_cancel.text == "CANCEL", "Nome do botão cancelar é diferente"
+
+        # CLICAR NO BOTÃO CANCEL
+        hckr_news.btn_cancel.click()
+
+        # VALIDANDO TÍTULO DA PÁGINA INICIAL
+        hews_home_title = hckr_news.Home()
+        assert hews_home_title.text == "Hews", "O título da página home está errado"
+
+    def test_06_LoginWithoutConnection(self):
         hckr_news = HckrNews(self.instance)
 
+        # DESLIGA ACESSO A INTERNET
         hckr_news.ConnectionType(0)
         # self.instance.instance.set_network_connection(1)
 
+        # ACESSA FORM LOGIN
         hckr_news.OpenMenu()
         hckr_news.CollapseLogin()
         hckr_news.ClickLogin()
-        hckr_news.UserName("Erick")
-        hckr_news.Password("123asd")
-        hckr_news.BtnSignIn()
 
+        # PREENCHER O CAMPO USERNAME
+        hckr_news.UserName("Nome Usuario")
+
+        # PREENCHER O CAMPO PASSWORD
+        hckr_news.Password("Senha123")
+
+        # CLICAR NO BOTÃO LOGIN
+        BtnLogin = hckr_news.BtnSignIn()
+        BtnLogin.click()
+
+        # VALIDAÇÃO DA MENSAGEM
         message = hckr_news.GetMsgNotInternt()
         self.assertEqual("Where's the Internet? Can't get it", message)
 
