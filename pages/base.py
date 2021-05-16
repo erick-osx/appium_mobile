@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from webdriver.webdriver import Instance
 from selenium.webdriver.support import expected_conditions as EC
@@ -56,3 +58,4 @@ class HckrNews:
 
     def Chamadas(self, numero, tipoCall):
         self.instance.instance.make_gsm_call(numero, tipoCall)
+        time.sleep(2)

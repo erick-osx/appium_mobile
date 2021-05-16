@@ -91,13 +91,9 @@ class HackerNewsTest(unittest.TestCase):
 
         # REALIZANDO CHAMADA, ACEITANDO, ESPERANDO E CANCELANDO
         hckr_news.Chamadas('5551234567', "call")
-        time.sleep(2)
         hckr_news.Chamadas('5551234567', "accept")
-        time.sleep(2)
         hckr_news.Chamadas('5551234567', "hold")
-        time.sleep(2)
         hckr_news.Chamadas('5551234567', "cancel")
-        time.sleep(2)
 
         # VALIDAÇÃO DO NOME E SENHA
         assert hckr_news.user_name.text == "Nome Usuario"
